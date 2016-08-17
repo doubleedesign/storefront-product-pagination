@@ -1,9 +1,9 @@
 === Storefront Product Pagination ===
 Contributors: jameskoster, woothemes
 Tags: woocommerce, ecommerce, products, storefront, pagination, next, previous
-Requires at least: 3.5
-Tested up to: 4.2.2
-Stable tag: 1.1.1
+Requires at least: 4.0.0
+Tested up to: 4.6.0
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ The links will appear on any single product page, providing there is more than o
 1. The product pagination.
 
 == Changelog ==
+
+= 1.1.2 - 08.17.2016 =
+* Fix - Deprecated function notice.
 
 = 1.1.1 - 06.23.2015 =
 * Fix - Storefront install prompt no longer installs a child theme.

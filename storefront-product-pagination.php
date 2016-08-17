@@ -3,11 +3,11 @@
  * Plugin Name:			Storefront Product Pagination
  * Plugin URI:			http://woothemes.com/storefront/
  * Description:			Add unobstrusive links to next/previous products on your WooCommerce single product pages.
- * Version:				1.1.1
+ * Version:				1.1.2
  * Author:				WooThemes
  * Author URI:			http://woothemes.com/
  * Requires at least:	4.0.0
- * Tested up to:		4.2.2
+ * Tested up to:		4.6.0
  *
  * Text Domain: storefront-product-pagination
  * Domain Path: /languages/
