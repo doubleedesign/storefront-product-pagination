@@ -250,7 +250,7 @@ final class Storefront_Product_Pagination {
 
 		$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'spp_background_color', array(
 			'label'			=> __( 'Background color', 'storefront-product-pagination' ),
-			'description'	=> __( 'Background color for the product pagintion links', 'storefront-product-pagination' ),
+			'description'	=> __( 'Background color for the product pagination links', 'storefront-product-pagination' ),
 			'section'		=> 'spp_section',
 			'settings'		=> 'spp_background_color',
 			'priority'		=> 30,
