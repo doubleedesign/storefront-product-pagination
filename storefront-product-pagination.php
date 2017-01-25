@@ -3,11 +3,11 @@
  * Plugin Name:			Storefront Product Pagination
  * Plugin URI:			http://woothemes.com/storefront/
  * Description:			Add unobstrusive links to next/previous products on your WooCommerce single product pages.
- * Version:				1.1.3
+ * Version:				1.2.0
  * Author:				WooThemes
  * Author URI:			http://woothemes.com/
  * Requires at least:	4.0.0
- * Tested up to:		4.6.1
+ * Tested up to:		4.7.1
  *
  * Text Domain: storefront-product-pagination
  * Domain Path: /languages/
@@ -17,7 +17,9 @@
  * @author James Koster
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 
 /**
@@ -26,11 +28,11 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  * @since  1.0.0
  * @return object Storefront_Product_Pagination
  */
-function Storefront_Product_Pagination() {
+function storefront_product_pagination() {
 	return Storefront_Product_Pagination::instance();
-} // End Storefront_Product_Pagination()
+} // End storefront_product_pagination()
 
-Storefront_Product_Pagination();
+storefront_product_pagination();
 
 /**
  * Main Storefront_Product_Pagination Class
@@ -43,6 +45,7 @@ Storefront_Product_Pagination();
 final class Storefront_Product_Pagination {
 	/**
 	 * Storefront_Product_Pagination The single instance of Storefront_Product_Pagination.
+	 *
 	 * @var 	object
 	 * @access  private
 	 * @since 	1.0.0
@@ -51,6 +54,7 @@ final class Storefront_Product_Pagination {
 
 	/**
 	 * The token.
+	 *
 	 * @var     string
 	 * @access  public
 	 * @since   1.0.0
@@ -59,15 +63,16 @@ final class Storefront_Product_Pagination {
 
 	/**
 	 * The version number.
+	 *
 	 * @var     string
 	 * @access  public
 	 * @since   1.0.0
 	 */
 	public $version;
 
-	// Admin - Start
 	/**
 	 * The admin object.
+	 *
 	 * @var     object
 	 * @access  public
 	 * @since   1.0.0
@@ -76,6 +81,7 @@ final class Storefront_Product_Pagination {
 
 	/**
 	 * Constructor function.
+	 *
 	 * @access  public
 	 * @since   1.0.0
 	 * @return  void
@@ -84,7 +90,7 @@ final class Storefront_Product_Pagination {
 		$this->token 			= 'storefront-product-pagination';
 		$this->plugin_url 		= plugin_dir_url( __FILE__ );
 		$this->plugin_path 		= plugin_dir_path( __FILE__ );
-		$this->version 			= '1.1.3';
+		$this->version 			= '1.2.0';
 
 		register_activation_hook( __FILE__, array( $this, 'install' ) );
 
@@ -104,13 +110,16 @@ final class Storefront_Product_Pagination {
 	 * @return Main Storefront_Product_Pagination instance
 	 */
 	public static function instance() {
-		if ( is_null( self::$_instance ) )
+		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self();
+		}
+
 		return self::$_instance;
 	} // End instance()
 
 	/**
 	 * Load the localisation file.
+	 *
 	 * @access  public
 	 * @since   1.0.0
 	 * @return  void
@@ -125,7 +134,7 @@ final class Storefront_Product_Pagination {
 	 * @since 1.0.0
 	 */
 	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?' ), '1.0.0' );
+		_doing_it_wrong( __FUNCTION__, esc_attr( __( 'Cheatin&#8217; huh?' ) ), '1.0.0' );
 	}
 
 	/**
@@ -134,12 +143,13 @@ final class Storefront_Product_Pagination {
 	 * @since 1.0.0
 	 */
 	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?' ), '1.0.0' );
+		_doing_it_wrong( __FUNCTION__, esc_attr( __( 'Cheatin&#8217; huh?' ) ), '1.0.0' );
 	}
 
 	/**
 	 * Installation.
 	 * Runs on activation. Logs the version number and assigns a notice message to a WordPress option.
+	 *
 	 * @access  public
 	 * @since   1.0.0
 	 * @return  void
@@ -147,9 +157,9 @@ final class Storefront_Product_Pagination {
 	public function install() {
 		$this->_log_version_number();
 
-		// get theme customizer url
+		// Get theme customizer url.
 		$url = admin_url() . 'customize.php?';
-		$url .= 'url=' . urlencode( site_url() . '?storefront-customizer=true' ) ;
+		$url .= 'url=' . urlencode( site_url() . '?storefront-customizer=true' );
 		$url .= '&return=' . urlencode( admin_url() . 'plugins.php' );
 		$url .= '&storefront-customizer=true';
 
@@ -161,6 +171,7 @@ final class Storefront_Product_Pagination {
 
 	/**
 	 * Log the plugin version number.
+	 *
 	 * @access  private
 	 * @since   1.0.0
 	 * @return  void
@@ -174,12 +185,13 @@ final class Storefront_Product_Pagination {
 	 * Setup all the things.
 	 * Only executes if Storefront or a child theme using Storefront as a parent is active and the extension specific filter returns true.
 	 * Child themes can disable this extension using the storefront_extension_boilerplate_enabled filter
+	 *
 	 * @return void
 	 */
 	public function spp_setup() {
 		$theme = wp_get_theme();
 
-		if ( 'Storefront' == $theme->name || 'storefront' == $theme->template && apply_filters( 'storefront_product_pagination_supported', true ) ) {
+		if ( 'Storefront' === $theme->name || 'storefront' === $theme->template && apply_filters( 'storefront_product_pagination_supported', true ) ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'spp_styles' ), 999 );
 			add_action( 'customize_register', array( $this, 'spp_customize_register' ) );
 			add_action( 'customize_preview_init', array( $this, 'spp_customize_preview_js' ) );
@@ -187,8 +199,7 @@ final class Storefront_Product_Pagination {
 
 			add_action( 'woocommerce_after_single_product_summary', array( $this, 'spp_single_product_pagination' ),	30 );
 
-
-			// Hide the 'More' section in the customizer
+			// Hide the 'More' section in the customizer.
 			add_filter( 'storefront_customizer_more', '__return_false' );
 		} else {
 			add_action( 'admin_notices', array( $this, 'spp_install_storefront_notice' ) );
@@ -198,6 +209,7 @@ final class Storefront_Product_Pagination {
 	/**
 	 * Admin notice
 	 * Checks the notice setup in install(). If it exists display it then delete the option so it's not displayed again.
+	 *
 	 * @since   1.0.0
 	 * @return  void
 	 */
@@ -207,7 +219,7 @@ final class Storefront_Product_Pagination {
 		if ( $notices = get_option( 'spp_activation_notice' ) ) {
 
 			foreach ( $notices as $notice ) {
-				echo '<div class="updated">' . $notice . '</div>';
+				echo '<div class="updated">' . wp_kses_post( $notice ) . '</div>';
 			}
 
 			delete_option( 'spp_activation_notice' );
@@ -217,26 +229,28 @@ final class Storefront_Product_Pagination {
 	/**
 	 * Storefront install
 	 * If the user activates the plugin while having a different parent theme active, prompt them to install Storefront.
+	 *
 	 * @since   1.0.0
 	 * @return  void
 	 */
 	public function spp_install_storefront_notice() {
 		echo '<div class="notice is-dismissible updated">
-				<p>' . __( 'Storefront Product Pagination requires that you use Storefront as your parent theme.', 'storefront-product-pagination' ) . ' <a href="' . esc_url( wp_nonce_url( self_admin_url( 'update.php?action=install-theme&theme=storefront' ), 'install-theme_storefront' ) ) .'">' . __( 'Install Storefront now', 'storefront-product-pagination' ) . '</a></p>
+				<p>' . wp_kses_post( __( 'Storefront Product Pagination requires that you use Storefront as your parent theme.', 'storefront-product-pagination' ) ) . ' <a href="' . esc_url( wp_nonce_url( self_admin_url( 'update.php?action=install-theme&theme=storefront' ), 'install-theme_storefront' ) ) .'">' . wp_kses_post( __( 'Install Storefront now', 'storefront-product-pagination' ) ) . '</a></p>
 			</div>';
 	}
 
 	/**
 	 * Customizer Controls and settings
+	 *
 	 * @param WP_Customize_Manager $wp_customize Theme Customizer object.
 	 */
 	public function spp_customize_register( $wp_customize ) {
 		/**
-	     * Add a new section
-	     */
-        $wp_customize->add_section( 'spp_section' , array(
-		    'title'      	=> __( 'Product Pagination', 'storefront-extention-boilerplate' ),
-		    'priority'   	=> 55,
+		 * Add a new section
+		 */
+		$wp_customize->add_section( 'spp_section' , array(
+			'title'      	=> __( 'Product Pagination', 'storefront-extention-boilerplate' ),
+			'priority'   	=> 55,
 		) );
 
 		/**
@@ -275,6 +289,7 @@ final class Storefront_Product_Pagination {
 
 	/**
 	 * Enqueue CSS and custom styles.
+	 *
 	 * @since   1.0.0
 	 * @return  void
 	 */
@@ -301,31 +316,36 @@ final class Storefront_Product_Pagination {
 	}
 
 	/**
- 	 * Single product pagination
+	 * Single product pagination
 	 * Display links to the next/previous products on the single product page
+	 *
 	 * @since   1.0.0
 	 * @return  void
 	 * @uses    previous_post_link(), next_post_link()
 	 */
 	function spp_single_product_pagination() {
 		$placeholder 				= '<img src="' . wc_placeholder_img_src() . '" />';
-		$previous_product 			= get_previous_post();
-		$next_product 				= get_next_post();
-		$previous_product_thumbnail	= '';
-		$next_product_thumbnail		= '';
 		$same_cat 					= get_theme_mod( 'spp_same_cat', false );
+		$taxonomy 		            = 'category';
+		$in_same_term 	            = false;
 
-		$in_same_term 	= false;
-		$taxonomy 		= 'category';
-
-		if ( true == $same_cat ) {
+		if ( true === $same_cat ) {
 			$in_same_term 	= true;
 			$taxonomy 		= 'product_cat';
 		}
 
-		// If a next/previous product exists, get the thumbnail (or place holder)
+		$previous_product 			= get_previous_post( $same_cat, '', $taxonomy );
+		$next_product 				= get_next_post( $same_cat, '', $taxonomy );
+
+		$previous_product_data      = new WC_Product( $previous_product->ID );
+		$next_product_data          = new WC_Product( $next_product->ID );
+
+		$previous_product_thumbnail	= '';
+		$next_product_thumbnail		= '';
+
+		// If a next/previous product exists, get the thumbnail (or place holder).
 		if ( $previous_product ) {
-			$previous_product_thumbnail 	= get_the_post_thumbnail( $previous_product->ID, 'shop_catalog' );
+			$previous_product_thumbnail = get_the_post_thumbnail( $previous_product->ID, 'shop_catalog' );
 
 			if ( ! $previous_product_thumbnail ) {
 				$previous_product_thumbnail = $placeholder;
@@ -333,20 +353,30 @@ final class Storefront_Product_Pagination {
 		}
 
 		if ( $next_product ) {
-			$next_product_thumbnail 	= get_the_post_thumbnail( $next_product->ID, 'shop_catalog' );
+			$next_product_thumbnail = get_the_post_thumbnail( $next_product->ID, 'shop_catalog' );
+
 			if ( ! $next_product_thumbnail ) {
 				$next_product_thumbnail = $placeholder;
 			}
 		}
 
-		// Output the links
-		if ( $next_product || $previous_product ) {
+		// Output the links.
+		if ( ( $next_product || $previous_product ) && ( $previous_product_data->is_visible() || $next_product_data->is_visible() ) ) {
+
 			echo '<nav class="storefront-single-product-pagination">';
-				echo '<h2>' . __( 'More products', 'storefront' ) . '</h2>';
-				previous_post_link( '%link', $previous_product_thumbnail . '<span class="title">&larr; %title</span>', $in_same_term, '', $taxonomy );
-				next_post_link( '%link', $next_product_thumbnail . '<span class="title">%title &rarr;</span>', $in_same_term, '', $taxonomy );
+
+			echo '<h2>' . esc_attr( __( 'More products', 'storefront' ) ) . '</h2>';
+
+			if ( $previous_product && $previous_product_data->is_visible() ) {
+				previous_post_link( '%link', $previous_product_thumbnail . '<span class="title">%title</span>', $in_same_term, '', $taxonomy );
+			}
+
+			if ( $next_product && $next_product_data->is_visible() ) {
+				next_post_link( '%link', $next_product_thumbnail . '<span class="title">%title</span>', $in_same_term, '', $taxonomy );
+			}
+
 			echo '</nav>';
+
 		}
 	}
-
 } // End Class

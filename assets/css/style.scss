@@ -1,7 +1,7 @@
 @import 'susy';
 @import 'bourbon';
-@import '../../../../themes/storefront/sass/utils/variables';
-@import '../../../../themes/storefront/sass/utils/mixins';
+@import '../../../../themes/storefront/assets/sass/utils/variables';
+@import '../../../../themes/storefront/assets/sass/utils/mixins';
 
 // Styles for mobile
 .storefront-single-product-pagination {
@@ -31,38 +31,48 @@
 
 		a {
 			display: block;
-			width: 17.942em;
+			width: 500px;
 			position: fixed;
 			float: none;
 			background-color: $body-background;
-			padding: 1em;
-			top: 45%;
+			top: 50%;
 			z-index: 999999;
+			box-shadow: 0 0 1em rgba(0,0,0,.1);
+			@include transform(translateY(-50%));
+			line-height: 1.2;
+			overflow: hidden;
 
 			img {
-				width: 4.236em;
-				opacity: 0.5;
-				@include transition(all .5s ease);
-			}
-
-			&:hover {
-				img {
-					opacity: 1;
-				}
+				width: 90px;
+				border-radius: 0;
 			}
 
 			.title {
-				width: 10.5em;
+				width: 340px;
 			}
 
 			&[rel="prev"] {
-				left: -11.706em;
+				left: -455px;
 				border-left: 0;
-				@include transition(left .5s ease);
+				@include transition(left .3s ease-out);
 
 				img {
 					float: right;
 					margin-left: 1em;
+				}
+
+				&:before {
+					display: block;
+					font-family: 'FontAwesome';
+					content: "\f104";
+					position: absolute;
+					top: 50%;
+					left: 1em;
+					height: 1em;
+					width: 1em;
+					@include transform(translateY(-50%));
+					line-height: 1;
+					text-align: center;
 				}
 
 				&:hover {
@@ -70,15 +80,18 @@
 				}
 
 				.title {
-					float: left;
 					display: block;
+					position: absolute;
+					right: 110px;
+					top: 50%;
+					@include transform(translateY(-50%));
 				}
 			}
 
 			&[rel="next"] {
-				right: -11.706em;
+				right: -455px;
 				border-right: 0;
-				@include transition(right .5s ease);
+				@include transition(right .3s ease-in);
 
 				img {
 					float: left;
@@ -89,9 +102,27 @@
 					right: 0;
 				}
 
-				.title {
-					float: right;
+				&:after {
 					display: block;
+					font-family: 'FontAwesome';
+					content: "\f105";
+					position: absolute;
+					top: 50%;
+					right: 1em;
+					height: 1em;
+					width: 1em;
+					@include transform(translateY(-50%));
+					line-height: 1;
+					text-align: center;
+				}
+
+				.title {
+					display: block;
+					position: absolute;
+					left: 110px;
+					top: 50%;
+					@include transform(translateY(-50%));
+					text-align: right;
 				}
 			}
 		}

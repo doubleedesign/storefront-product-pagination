@@ -2,8 +2,8 @@
 Contributors: jameskoster, woothemes
 Tags: woocommerce, ecommerce, products, storefront, pagination, next, previous
 Requires at least: 4.0.0
-Tested up to: 4.6.1
-Stable tag: 1.1.3
+Tested up to: 4.7.1
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,11 @@ The links will appear on any single product page, providing there is more than o
 1. The product pagination.
 
 == Changelog ==
+
+= 1.2.0 - 01.25.2017 =
+* New - Design tweaks.
+* Fix - Thumbnails when displaying next/prev products from the same category.
+* Fix - Don't display hidden products in next/prev links.
 
 = 1.1.3 - 09.09.2016 =
 * Fix - Typo in the pagination background color setting.
