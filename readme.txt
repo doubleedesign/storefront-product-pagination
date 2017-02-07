@@ -3,7 +3,7 @@ Contributors: jameskoster, woothemes
 Tags: woocommerce, ecommerce, products, storefront, pagination, next, previous
 Requires at least: 4.0.0
 Tested up to: 4.7.1
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,12 +30,14 @@ First of all it's important to note that this plugin requires that <a href="http
 
 The links will appear on any single product page, providing there is more than one product at your store.
 
-
 == Screenshots ==
 
 1. The product pagination.
 
 == Changelog ==
+
+= 1.2.1 - 02.07.2017 =
+* Fix - Errors when no next/previous product exists.
 
 = 1.2.0 - 01.25.2017 =
 * New - Design tweaks.
