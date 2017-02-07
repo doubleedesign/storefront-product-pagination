@@ -337,14 +337,15 @@ final class Storefront_Product_Pagination {
 		$previous_product 			= get_previous_post( $same_cat, '', $taxonomy );
 		$next_product 				= get_next_post( $same_cat, '', $taxonomy );
 
-		$previous_product_data      = new WC_Product( $previous_product->ID );
-		$next_product_data          = new WC_Product( $next_product->ID );
-
 		$previous_product_thumbnail	= '';
 		$next_product_thumbnail		= '';
 
+		$previous_product_data = '';
+		$next_product_data     = '';
+
 		// If a next/previous product exists, get the thumbnail (or place holder).
 		if ( $previous_product ) {
+			$previous_product_data      = new WC_Product( $previous_product->ID );
 			$previous_product_thumbnail = get_the_post_thumbnail( $previous_product->ID, 'shop_catalog' );
 
 			if ( ! $previous_product_thumbnail ) {
@@ -353,6 +354,7 @@ final class Storefront_Product_Pagination {
 		}
 
 		if ( $next_product ) {
+			$next_product_data      = new WC_Product( $next_product->ID );
 			$next_product_thumbnail = get_the_post_thumbnail( $next_product->ID, 'shop_catalog' );
 
 			if ( ! $next_product_thumbnail ) {
@@ -361,7 +363,7 @@ final class Storefront_Product_Pagination {
 		}
 
 		// Output the links.
-		if ( ( $next_product || $previous_product ) && ( $previous_product_data->is_visible() || $next_product_data->is_visible() ) ) {
+		if ( $next_product || $previous_product ) {
 
 			echo '<nav class="storefront-single-product-pagination">';
 
