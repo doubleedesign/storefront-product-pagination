@@ -10,10 +10,7 @@
   .storefront-single-product-pagination {
     z-index: 999999; }
     .storefront-single-product-pagination h2 {
-      clip: rect(1px 1px 1px 1px);
-      /* IE6, IE7 */
-      clip: rect(1px, 1px, 1px, 1px);
-      position: absolute !important; }
+      display: none; }
     .storefront-single-product-pagination a {
       display: block;
       width: 500px;

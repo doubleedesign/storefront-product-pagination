@@ -26,7 +26,7 @@
 		z-index: 999999;
 
 		h2 {
-			@include screen_reader_text;
+			display: none;
 		}
 
 		a {
