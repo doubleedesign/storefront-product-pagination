@@ -14,7 +14,14 @@ A simple plugin that displays next and previous links on single product pages, w
  
 ## Theme Integration
 
-Instructions to follow
+By default, the plugin will insert the pagination after the product data tabs, before upsells and related products, by adding the action to `woocommerce_after_single_product_summary` at priority `12`.
+
+You can modify this by adding the below code to your functions file, where the 30 in the last line is your desired priority. You could also add it to a different action hook by replacing `woocommerce_after_single_product_summary` with your desired action hook.
+```php
+$plugin_instance = Storefront_Product_Pagination::instance();
+remove_action('init', array($plugin_instance, 'spp_template_position'));
+add_action( 'woocommerce_after_single_product_summary', array( $plugin_instance, 'spp_single_product_pagination' ), 30 );
+```
 
 ## Styling
 

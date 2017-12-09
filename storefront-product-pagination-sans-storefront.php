@@ -1,20 +1,16 @@
 <?php
 /**
- * Plugin Name:			Storefront Product Pagination
+ * Plugin Name:			Storefront Product Pagination without Storefront
  * Plugin URI:			http://woothemes.com/storefront/
- * Description:			Add unobstrusive links to next/previous products on your WooCommerce single product pages.
- * Version:				1.2.2
- * Author:				WooThemes
- * Author URI:			http://woothemes.com/
+ * Description:			Add unobstrusive links to next/previous products on your WooCommerce single product pages. Forked from Storefront Product Pagination version 1.2.2.
+ * Version:				1.0
+ * Author:				Leesa Ward
+ * Author URI:			https://www.github.com/doubleedesign
  * Requires at least:	4.0.0
  * Tested up to:		4.8.2
  *
  * Text Domain: storefront-product-pagination
  * Domain Path: /languages/
- *
- * @package Storefront_Product_Pagination
- * @category Core
- * @author James Koster
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -43,6 +39,7 @@ storefront_product_pagination();
  * @package	Storefront_Product_Pagination
  */
 final class Storefront_Product_Pagination {
+    
 	/**
 	 * Storefront_Product_Pagination The single instance of Storefront_Product_Pagination.
 	 *
@@ -91,12 +88,10 @@ final class Storefront_Product_Pagination {
 		$this->plugin_url 		= plugin_dir_url( __FILE__ );
 		$this->plugin_path 		= plugin_dir_path( __FILE__ );
 		$this->version 			= '1.2.2';
-
 		register_activation_hook( __FILE__, array( $this, 'install' ) );
-
 		add_action( 'init', array( $this, 'spp_load_plugin_textdomain' ) );
-
 		add_action( 'init', array( $this, 'spp_setup' ) );
+        add_action( 'init', array( $this, 'spp_template_position' ) );    
 	}
 
 	/**
@@ -183,28 +178,19 @@ final class Storefront_Product_Pagination {
 
 	/**
 	 * Setup all the things.
-	 * Only executes if Storefront or a child theme using Storefront as a parent is active and the extension specific filter returns true.
-	 * Child themes can disable this extension using the storefront_extension_boilerplate_enabled filter
 	 *
 	 * @return void
 	 */
 	public function spp_setup() {
-		$theme = wp_get_theme();
-
-		if ( 'Storefront' === $theme->name || 'storefront' === $theme->template && apply_filters( 'storefront_product_pagination_supported', true ) ) {
-			add_action( 'wp_enqueue_scripts', array( $this, 'spp_styles' ), 999 );
-			add_action( 'customize_register', array( $this, 'spp_customize_register' ) );
-			add_action( 'customize_preview_init', array( $this, 'spp_customize_preview_js' ) );
-			add_action( 'admin_notices', array( $this, 'spp_customizer_notice' ) );
-
-			add_action( 'woocommerce_after_single_product_summary', array( $this, 'spp_single_product_pagination' ),	30 );
-
-			// Hide the 'More' section in the customizer.
-			add_filter( 'storefront_customizer_more', '__return_false' );
-		} else {
-			add_action( 'admin_notices', array( $this, 'spp_install_storefront_notice' ) );
-		}
+		add_action( 'customize_register', array( $this, 'spp_customize_register' ) );
+		add_action( 'customize_preview_init', array( $this, 'spp_customize_preview_js' ) );
+		add_action( 'admin_notices', array( $this, 'spp_customizer_notice' ) );	
+		add_filter( 'storefront_customizer_more', '__return_false' ); // Hide the 'More' section in the customizer
 	}
+    
+    public function spp_template_position() {
+        add_action( 'woocommerce_after_single_product_summary', array( $this, 'spp_single_product_pagination' ), 12 ); 
+    }
 
 	/**
 	 * Admin notice
@@ -227,19 +213,6 @@ final class Storefront_Product_Pagination {
 	}
 
 	/**
-	 * Storefront install
-	 * If the user activates the plugin while having a different parent theme active, prompt them to install Storefront.
-	 *
-	 * @since   1.0.0
-	 * @return  void
-	 */
-	public function spp_install_storefront_notice() {
-		echo '<div class="notice is-dismissible updated">
-				<p>' . wp_kses_post( __( 'Storefront Product Pagination requires that you use Storefront as your parent theme.', 'storefront-product-pagination' ) ) . ' <a href="' . esc_url( wp_nonce_url( self_admin_url( 'update.php?action=install-theme&theme=storefront' ), 'install-theme_storefront' ) ) .'">' . wp_kses_post( __( 'Install Storefront now', 'storefront-product-pagination' ) ) . '</a></p>
-			</div>';
-	}
-
-	/**
 	 * Customizer Controls and settings
 	 *
 	 * @param WP_Customize_Manager $wp_customize Theme Customizer object.
@@ -252,23 +225,6 @@ final class Storefront_Product_Pagination {
 			'title'      	=> __( 'Product Pagination', 'storefront-extention-boilerplate' ),
 			'priority'   	=> 55,
 		) );
-
-		/**
-		 * Color picker
-		 */
-		$wp_customize->add_setting( 'spp_background_color', array(
-			'default'			=> apply_filters( 'spp_default_background_color', 'ffffff' ),
-			'sanitize_callback'	=> 'sanitize_hex_color',
-			'transport'			=> 'postMessage', // Refreshes instantly via js. See customizer.js. (default = refresh).
-		) );
-
-		$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'spp_background_color', array(
-			'label'			=> __( 'Background color', 'storefront-product-pagination' ),
-			'description'	=> __( 'Background color for the product pagination links', 'storefront-product-pagination' ),
-			'section'		=> 'spp_section',
-			'settings'		=> 'spp_background_color',
-			'priority'		=> 30,
-		) ) );
 
 		/**
 		 * Same category
@@ -285,25 +241,6 @@ final class Storefront_Product_Pagination {
 			'type'        => 'checkbox',
 			'priority'    => 40,
 		) ) );
-	}
-
-	/**
-	 * Enqueue CSS and custom styles.
-	 *
-	 * @since   1.0.0
-	 * @return  void
-	 */
-	public function spp_styles() {
-		wp_enqueue_style( 'spp-styles', plugins_url( '/assets/css/style.css', __FILE__ ) );
-
-		$heading_background_color = get_theme_mod( 'spp_background_color', apply_filters( 'spp_default_background_color', '#ffffff' ) );
-
-		$spp_style = '
-		.storefront-single-product-pagination a {
-			background-color: ' . $heading_background_color . ';
-		}';
-
-		wp_add_inline_style( 'spp-styles', $spp_style );
 	}
 
 	/**
