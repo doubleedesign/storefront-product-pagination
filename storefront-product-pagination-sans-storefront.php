@@ -302,7 +302,7 @@ final class Storefront_Product_Pagination {
 		// Output the links.
 		if ( $next_product || $previous_product ) {
 
-			echo '<nav class="storefront-single-product-pagination">';
+			echo '<nav class="single-product-pagination">';
 
 			if ( $previous_product && $previous_product_data->is_visible() ) {
 				previous_post_link( '%link', $previous_product_thumbnail . '<span class="title">%title</span>', $in_same_term, '', $taxonomy );
