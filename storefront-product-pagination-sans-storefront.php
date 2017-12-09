@@ -304,8 +304,6 @@ final class Storefront_Product_Pagination {
 
 			echo '<nav class="storefront-single-product-pagination">';
 
-			echo '<h2>' . esc_attr( __( 'More products', 'storefront' ) ) . '</h2>';
-
 			if ( $previous_product && $previous_product_data->is_visible() ) {
 				previous_post_link( '%link', $previous_product_thumbnail . '<span class="title">%title</span>', $in_same_term, '', $taxonomy );
 			}
