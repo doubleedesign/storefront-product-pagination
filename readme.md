@@ -1,11 +1,4 @@
-# Storefront Product Pagination without Storefront
-Contributors: jameskoster, woothemes, doubleedesign
-Tags: woocommerce, ecommerce, products, storefront, pagination, next, previous
-Requires at least: 4.0.0
-Tested up to: 4.8.2
-Version: 1.0
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+# Storefront Product Pagination - sans Storefront
 
 ## Description
 
